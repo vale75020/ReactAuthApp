@@ -27,7 +27,7 @@ export default class Registration extends Component {
     //console.log("form submitted");
     const { email, password, password_confirmation } = this.props;
     axios
-      .post("http://localhost:3001/registartions", {
+      .post("http://localhost:3001/registrations", {
           
           user: {
             email: email,
