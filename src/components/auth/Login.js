@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-export default class Registration extends Component {
+export default class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       email: "",
       password: "",
-      password_confirmation: "",
-      registrationErrors: ""
+      loginErrors: ""
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -25,26 +24,25 @@ export default class Registration extends Component {
 
   handleSubmit(event) {
     //console.log("form submitted");
-    const { email, password, password_confirmation } = this.props;
+    const { email, password } = this.props;
     axios
-      .post("http://localhost:3001/registrations", {
+      .post("http://localhost:3001/sessions", {
           
           user: {
             email: email,
-            password: password,
-            password_confirmation: password_confirmation
+            password: password
           }
         },
         { withCredential: true }
       )
       .then(response => {
-        //console.log("registartion res", response);
-        if (response.data.status === 'created') {
+        //console.log("login res", response);
+        if (response.data.logged_in) {
           this.props.handleSuccessfulAuth(response.data);
         }
       })
       .catch(error => {
-        console.log("registration error", error);
+        console.log("login error", error);
       });
     event.preventDefault();
   }
@@ -73,17 +71,7 @@ export default class Registration extends Component {
           />
           <br />
           <br />
-          <input
-            type="password"
-            name="password_confirmation"
-            placeholder="password_confirmation"
-            value={this.state.password_confirmation}
-            onChange={this.handleChange}
-            required
-          />
-          <br />
-          <br />
-          <button type="submit">Register</button>
+          <button type="submit">Login</button>
         </form>
       </div>
     );
